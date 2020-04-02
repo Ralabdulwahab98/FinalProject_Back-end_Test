@@ -14,10 +14,10 @@ router.post('/api/customer/register', (req, res) => {
     const customer = {}
     customer.FullName = FullName,
         customer.Username = Username,
-        customer.Email = Email + '@enjaz.com',
+        customer.Email = Email,
         customer.Phone = Phone,
         customer.password = password,
-        customer.admin = admin
+        customer.Worker = Worker
     let newCustomer = new Customer(customer)
 
     Customer.addUser(newCustomer, (err, customer) => {
