@@ -12,8 +12,8 @@ require("dotenv/config");
 
 
 // require route files
-const empRoute = require("./app/routes/emp");
-const ticketRoute = require("./app/routes/ticket");
+const customerRoute = require("./app/routes/customer");
+const serviceRoute = require("./app/routes/service");
 
 
 // require database configuration logic
@@ -85,9 +85,9 @@ if (process.env.NODE_ENV === 'production') {
 }
 // app.use(checkUserType);
 
-app.use(empRoute);
+app.use(customerRoute);
 // app.use("/api/admin", adminRoute);
-app.use(ticketRoute);
+app.use(serviceRoute);
 // Handler for 404 - Resource Not Found
 app.use((req, res, next) => {
   res.status(404).send("We think you are lost!");
