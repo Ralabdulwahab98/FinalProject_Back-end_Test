@@ -7,7 +7,7 @@ router.post('/api/:customerId', (req, res) => {
   // store new Service in memory with data from request body
   const { ServiceType, ServiceDescription, ServiceState } = req.body
   let service = {}
-  service.ServiceType = ServiceType,
+    service.ServiceType = ServiceType,
     service.ServiceDescription = ServiceDescription,
     service.ServiceState = ServiceState,
     service.RequestService = req.params.customerId

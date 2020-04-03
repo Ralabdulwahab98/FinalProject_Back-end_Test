@@ -44,7 +44,7 @@ const CustomerSchema = mongoose.Schema({
   ReceivedService: [
     {
       type: Schema.Types.ObjectId,
-      ref: 'service'
+      ref: 'Service'
     }
   ],
   Worker: {

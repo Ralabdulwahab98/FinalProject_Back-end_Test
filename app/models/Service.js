@@ -13,7 +13,6 @@ const serviceSchema = mongoose.Schema({
   ServiceState: {
     type: String,
     required: [true, 'Service State required'],
-    enum: ['Open', 'On Progress', 'closed']
   },
   ServicesEmp: [
     {
