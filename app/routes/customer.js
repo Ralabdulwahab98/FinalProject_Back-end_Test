@@ -65,7 +65,7 @@ router.post('/api/customer/login', (req, res) => {
                         FullName: customer.FullName,
                         Email: customer.email,
                         Phone: customer.Phone,
-                        admin: customer.admin
+                        Worker: customer.Worker
                     }
                 }, config.database.secret, {
                     expiresIn: 36000000 // for 10 Hou time in seconds

@@ -57,36 +57,39 @@ CustomerSchema.plugin(uniqueValidator);
 
 const Customer = module.exports = mongoose.model('Customer', CustomerSchema);
 
-// create and export function to  Find the Customer by ID
-module.exports.getUserById = (id, callback) => {
-  Customer.findById(id, callback);
+
+// create and export function to  Find the Employee by ID
+module.exports.getUserById =  (id, callback) =>{
+    Customer.findById(id, callback);
 }
 
-//create and export function to  Find the Customer by Its username
-module.exports.getUserByUsername = (Customer, callback) => {
-  const query = {
-    Username: Username
-  }
-  Customer.findOne(query, callback);
+//create and export function to  Find the Employee by Its username
+module.exports.getUserByUsername =  (Username, callback) =>{
+    const query = {
+      Username: Username
+    }
+    Customer.findOne(query, callback);
 }
 
-// create and export function to Register the Customer
-module.exports.addUser = (newCustomer, callback) => {
-  bcrypt.genSalt(10, (err, salt) => {
-    bcrypt.hash(newCustomer.password, salt, (err, hash) => {
-      if (err) throw err;
-      newCustomer.password = hash;
-      newCustomer.save(callback);
-    })
-  });
+// create and export function to Register the Employee
+module.exports.addUser =   (newEmp, callback) =>{
+    bcrypt.genSalt(10, (err, salt) => {
+        bcrypt.hash(newEmp.password, salt, (err, hash) => {
+            if (err) throw err;
+            newEmp.password = hash;
+            newEmp.save(callback);
+        })
+    });
 }
 
 //create and export function to  Compare the  Password
-module.exports.comparePassword = (password, hash, callback) => {
-  bcrypt.compare(password, hash, (err, isMatch) => {
-    if (err) throw err;
-    callback(null, isMatch);
-  });
+module.exports.comparePassword =  (password, hash, callback) =>{
+    bcrypt.compare(password, hash, (err, isMatch) => {
+        if (err) throw err;
+        callback(null, isMatch);
+    });
 }
+
+
 
 
