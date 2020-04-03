@@ -72,12 +72,12 @@ module.exports.getUserByUsername =  (Username, callback) =>{
 }
 
 // create and export function to Register the Employee
-module.exports.addUser =   (newEmp, callback) =>{
+module.exports.addUser =   (newCustomer, callback) =>{
     bcrypt.genSalt(10, (err, salt) => {
-        bcrypt.hash(newEmp.password, salt, (err, hash) => {
+        bcrypt.hash(newCustomer.password, salt, (err, hash) => {
             if (err) throw err;
-            newEmp.password = hash;
-            newEmp.save(callback);
+            newCustomer.password = hash;
+            newCustomer.save(callback);
         })
     });
 }
