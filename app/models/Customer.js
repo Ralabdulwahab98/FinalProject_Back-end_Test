@@ -5,7 +5,10 @@ const uniqueValidator = require('mongoose-unique-validator');
 
 
 const Schema = mongoose.Schema;
-
+const validateEmail = function(email) {
+  var re = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
+  return re.test(email)
+};
 const CustomerSchema = mongoose.Schema({
 
   FullName: {
@@ -17,8 +20,9 @@ const CustomerSchema = mongoose.Schema({
     trim: true,
     lowercase: true,
     unique: true,
-    index: true,
-    required: [true, 'customer email  required']
+    required: 'Email address is required',
+    validate: [validateEmail, 'Please fill a valid email address'],
+    match: [/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/, 'Please fill a valid email address']
   },
   Username: {
     type: String,
@@ -50,6 +54,11 @@ const CustomerSchema = mongoose.Schema({
   Worker: {
     type: Boolean,
     default: false
+  },
+  UserType:{
+    type: String,
+    required: [true, 'WorkerType is required'],
+    enum:["Customer","Electrician","Plumber","Painter","Carpenter"]
   }
 });
 
