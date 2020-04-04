@@ -10,14 +10,15 @@ require("dotenv").config();
 
 
 router.post('/api/customer/register', (req, res) => {
-    const { FullName, Username, Email, password, Phone,Worker } = req.body;
+    const { FullName, Username, Email, password, Phone,Worker,UserType } = req.body;
     const customer = {}
     customer.FullName = FullName,
         customer.Username = Username,
         customer.Email = Email,
         customer.Phone = Phone,
         customer.password = password,
-        customer.Worker = Worker
+        customer.Worker = Worker,
+        customer.UserType = UserType
     let newCustomer = new Customer(customer)
 
     Customer.addUser(newCustomer, (err, customer) => {
@@ -32,7 +33,7 @@ router.post('/api/customer/register', (req, res) => {
         } else {
             return res.json({
                 success: true,
-                message: "Customer registration is successful."
+                message: "User registration is successful."
             });
         }
     });
@@ -50,7 +51,7 @@ router.post('/api/customer/login', (req, res) => {
         if (!customer) {
             return res.json({
                 success: false,
-                message: "Customer not found."
+                message: "User not found."
             });
         }
 
@@ -92,7 +93,7 @@ router.post('/api/customer/login', (req, res) => {
 router.get('/api/customer/profile', passport.authenticate('jwt', {
     session: false
 }), (req, res) => {
-    console.log(`customer login success ${req.user}`);
+    console.log(`User login success ${req.user}`);
     return res.json(
         req.user
     );
