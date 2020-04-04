@@ -2,10 +2,6 @@ const mongoose = require('mongoose');
 
 const Schema = mongoose.Schema;
 const serviceSchema = mongoose.Schema({
-  ServiceType: {
-    type: String,
-    required: [true, 'Service Type  required']
-  },
   ServiceDescription: {
     type: String,
     required: [true, 'Service Description required']
@@ -13,6 +9,7 @@ const serviceSchema = mongoose.Schema({
   ServiceState: {
     type: String,
     required: [true, 'Service State required'],
+    enum:['Open', 'On Progress','Closed']
   },
   ServicesEmp: [
     {
@@ -23,6 +20,11 @@ const serviceSchema = mongoose.Schema({
   Rating:
   {
     type: Number, min: 0, max: 5
+  },
+  ServiceType:{
+    type: String,
+    required: [true, 'WorkerType is required'],
+    enum:["Electrician","Plumber","Painter","Carpenter"]
   }
   
 });

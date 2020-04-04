@@ -7,10 +7,10 @@ router.post('/api/:customerId', (req, res) => {
   // store new Service in memory with data from request body
   const { ServiceType, ServiceDescription, ServiceState } = req.body
   let service = {}
-  service.ServiceType = ServiceType,
     service.ServiceDescription = ServiceDescription,
     service.ServiceState = ServiceState,
-    service.RequestService = req.params.customerId
+    service.RequestService = req.params.customerId,
+    service.ServiceType = ServiceType
   const savedService = new Service(service)
   savedService.save()
   // find Customer in db by id and add new service
@@ -27,19 +27,29 @@ router.post('/api/:customerId', (req, res) => {
 });
 
 
-//-------------Get all service-------------------
-router.get('/api/service/allServices', (req, res) => {
+//------------- Find all service depend on WorkerId and if the ServiceState is open -------------\\
+router.get('/api/service/:WorkerId', (req, res) => {
+  Customer.findById(req.params.WorkerId, (error, foundWorker) => {
+       let user_type = foundWorker.UserType
     Service.find({})
+    .where('ServiceType').in(user_type)
+    .where("ServiceState").in('open')
   .populate('ServicesEmp')
   .exec((err, Customer) => {
     if (err) {
       res.status(500).send(err);
       return;
     }
-    console.log(`customer login success ${req.user}`);
     console.log(`found and populated all : ${Customer}`);
-    res.json(Customer);
-  });
+    res.status(200).json(Customer);
+  })
+
+
+// }else{
+//   console.log("there is no requested Services match you ")
+// }
+});
+
 });
 //-------------Pass service to another Customer-------------------
 router.patch('/api/PassService/:ServiceId', (req, res) => {
