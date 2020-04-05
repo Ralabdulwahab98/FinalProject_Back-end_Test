@@ -11,12 +11,7 @@ const ServiceSchema = mongoose.Schema({
     required: [true, 'Service State required'],
     enum:['Open', 'On Progress','Closed']
   },
-  ServicesEmp: [
-    {
-      type: Schema.Types.ObjectId,
-      ref: 'Customer'
-    }
-  ],
+
   Rating:
   {
     type: Number, min: 0, max: 5
@@ -25,7 +20,16 @@ const ServiceSchema = mongoose.Schema({
     type: String,
     required: [true, 'WorkerType is required'],
     enum:["Electrician","Plumber","Painter","Carpenter"]
-  }
+  },
+  AllPrice:[{
+    ServicePrice:
+       Number,
+  
+    ServicesEmp: {
+      type: Schema.Types.ObjectId,
+      ref: 'Customer'
+    }
+  }]
   
 });
 module.exports = mongoose.model('Service', ServiceSchema)
