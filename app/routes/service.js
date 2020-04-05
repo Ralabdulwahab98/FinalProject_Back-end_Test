@@ -5,12 +5,13 @@ const Service = require('../models/Service');
 //-------------create service embedded in customer-------------------
 router.post('/api/:customerId', (req, res) => {
   // store new Service in memory with data from request body
-  const { ServiceType, ServiceDescription, ServiceState } = req.body
+  const { ServiceType, ServiceDescription, ServiceState,ServicePrice } = req.body
   let service = {}
   service.ServiceDescription = ServiceDescription,
     service.ServiceState = ServiceState,
-    service.RequestService = req.params.customerId,
-    service.ServiceType = ServiceType
+    service.ServicesEmp = req.params.customerId,
+    service.ServiceType = ServiceType,
+    service.ServicePrice = ServicePrice
   const savedService = new Service(service)
   savedService.save()
   // find Customer in db by id and add new service
@@ -48,22 +49,25 @@ router.get('/api/service/:WorkerId', (req, res) => {
 });
 //-------------Pass service to another Customer-------------------
 router.patch('/api/PassService/:ServiceId', (req, res) => {
+  
   Service.findById(req.params.ServiceId, async (error, foundService) => {
     try {
-      await foundService.ServicesEmp.push(req.body.ServicesEmp);
+      await foundService.AllPrice.push(req.body)
     } catch (error) {
       res.status(404).json(error);
     }
-    Customer.findById(req.body.ServicesEmp, async (error, foundService) => {
-      try {
-        await foundService.save()
-        foundService.ReceivedService.push(foundService);
-        foundService.save()
-        res.status(200).json(foundService.ServicesEmp);
+
+    Customer.findById(req.body.ServicesEmp, async (error, foundCustomer) => {
+      try { 
+       await foundService.save()
+       foundCustomer.ReceivedService.push(foundService);
+       foundCustomer.save()
+        res.status(200).json(foundService);
       } catch (error) {
         res.status(404).json(error);
       }
     })
+  
   });
 });
 //-------------Update Service by Service Id-------------------
