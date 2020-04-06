@@ -22,13 +22,14 @@ const ServiceSchema = mongoose.Schema({
     enum:["Electrician","Plumber","Painter","Carpenter"]
   },
   AllPrice:[{
+    
     ServicePrice:
-       Number,
-  
-    ServicesEmp: {
+      Number, 
+      ServicesEmp: {
       type: Schema.Types.ObjectId,
       ref: 'Customer'
     }
+  
   }]
   
 });
