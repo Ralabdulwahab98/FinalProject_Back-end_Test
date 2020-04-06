@@ -47,6 +47,23 @@ router.get('/api/service/:WorkerId', (req, res) => {
   });
 
 });
+//------------- Find all service depend on userId and if the ServiceState is closed -------------\\
+router.get('/api/service/closed/:WorkerId', (req, res) => {
+  Customer.findById(req.params.WorkerId, (error, foundWorker) => {
+    let user_type = foundWorker.UserType
+    Service.find({})
+      .where("ServiceState").in('closed')
+      .exec((err, Customer) => {
+        if (err) {
+          res.status(500).send(err);
+          return;
+        }
+        console.log(`found and populated all : ${Customer}`);
+        res.status(200).json(Customer);
+      })
+  });
+
+});
 //-------------Pass service to another Customer-------------------
 router.patch('/api/PassService/:ServiceId', (req, res) => {
   

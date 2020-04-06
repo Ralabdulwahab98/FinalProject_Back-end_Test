@@ -126,4 +126,16 @@ router.get('/api/customer/ReceivedService/:CustomerId', (req, res) => {
         });
 
       });
+
+//-------------Get User info By User ID-------------------
+router.get('/api/customer/:UserId', (req, res) => {
+    Customer.findById(req.params.UserId)
+    .populate('ReceivedService') 
+    .exec( (err, User) =>{
+      if (err) return res.status(404).json(err);
+      console.log('Services',User);
+      res.send(User)
+        });
+
+      });
 module.exports = router;
