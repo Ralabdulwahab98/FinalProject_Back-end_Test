@@ -64,7 +64,7 @@ router.post('/api/customer/login', (req, res) => {
                         _id: customer._id,
                         Username: customer.Username,
                         FullName: customer.FullName,
-                        Email: customer.email,
+                        Email: customer.Email,
                         Phone: customer.Phone,
                         Worker: customer.Worker,
                         UserType: customer.UserType
