@@ -60,7 +60,7 @@ router.patch('/api/PassService/:ServiceId', (req, res) => {
     Customer.findById(req.body.ServicesEmp, async (error, foundCustomer) => {
       try { 
        await foundService.save()
-       foundCustomer.ReceivedService.push(foundService);
+       foundCustomer.ReceivedService.push(foundService.ServicesEmp);
        foundCustomer.save()
         res.status(200).json(foundService);
       } catch (error) {
