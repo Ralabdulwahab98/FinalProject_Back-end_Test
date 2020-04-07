@@ -134,7 +134,7 @@ router.get('/api/customer/:UserId', (req, res) => {
     .exec( (err, User) =>{
       if (err) return res.status(404).json(err);
       console.log('Services',User);
-      res.send(User)
+      res.send(User.Username)
         });
 
       });
