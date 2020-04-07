@@ -47,12 +47,12 @@ router.get('/api/service/:WorkerId', (req, res) => {
   });
 
 });
+
 //------------- Find all service depend on userId and if the ServiceState is closed -------------\\
-router.get('/api/service/closed/:WorkerId', (req, res) => {
-  Customer.findById(req.params.WorkerId, (error, foundWorker) => {
-    let user_type = foundWorker.UserType
-    Service.find({})
-      .where("ServiceState").in('closed')
+router.get('/api/Find/All/closed/Service/:UserId', (req, res) => {
+  Customer.findById(req.params.UserId, (error, foundWorker) => {
+    Service.find({$or:[{_id:foundWorker.RequestService},{_id:foundWorker.ReceivedService}]})
+      .where("ServiceState").in('Closed')
       .exec((err, Customer) => {
         if (err) {
           res.status(500).send(err);
@@ -62,7 +62,38 @@ router.get('/api/service/closed/:WorkerId', (req, res) => {
         res.status(200).json(Customer);
       })
   });
+});
 
+//------------- Find all service depend on userId and if the ServiceState is Waiting -------------\\
+router.get('/api/Find/All/Waiting/Service/:UserId', (req, res) => {
+  Customer.findById(req.params.UserId, (error, foundWorker) => {
+    Service.find({$or:[{_id:foundWorker.RequestService},{_id:foundWorker.ReceivedService}]})
+      .where("ServiceState").in('Waiting')
+      .exec((err, Customer) => {
+        if (err) {
+          res.status(500).send(err);
+          return;
+        }
+        console.log(`found and populated all : ${Customer}`);
+        res.status(200).json(Customer);
+      })
+  });
+});
+
+//------------- Find all service depend on userId and if the ServiceState is On Progress -------------\\
+router.get('/api/Find/All/OnProgress/Service/:UserId', (req, res) => {
+  Customer.findById(req.params.UserId, (error, foundWorker) => {
+    Service.find({$or:[{_id:foundWorker.RequestService},{_id:foundWorker.ReceivedService}]})
+      .where("ServiceState").in('OnProgress')
+      .exec((err, Customer) => {
+        if (err) {
+          res.status(500).send(err);
+          return;
+        }
+        console.log(`found and populated all : ${Customer}`);
+        res.status(200).json(Customer);
+      })
+  });
 });
 //-------------Pass service to another Customer-------------------
 router.patch('/api/PassService/:ServiceId', (req, res) => {
@@ -77,7 +108,7 @@ router.patch('/api/PassService/:ServiceId', (req, res) => {
     Customer.findById(req.body.ServicesEmp, async (error, foundCustomer) => {
       try { 
        await foundService.save()
-       foundCustomer.ReceivedService.push(foundService.ServicesEmp);
+       foundCustomer.ReceivedService.push(foundService);
        foundCustomer.save()
         res.status(200).json(foundService);
       } catch (error) {
@@ -114,4 +145,12 @@ router.delete('/api/DeleteService/:ServiceId', (req, res) => {
     }
   });
 });
+
+
+
+
 module.exports = router
+
+
+//--[]-[]-[]-[]-[]-[]-[]-[]-[]-[]-[]-[]-[]--------\\
+
